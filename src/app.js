@@ -4,7 +4,7 @@ const services = require('./services');
 
 const app = express();
 
-require('./middlewares')(app);
+require('./middlewares/default-middlewares')(app);
 
 const container = {
   services,

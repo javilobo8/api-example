@@ -10,6 +10,7 @@
     "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "helmet": "^3.16.0",
     "mocha": "^6.0.2",
     "mongoose": "^5.4.16"
   },
