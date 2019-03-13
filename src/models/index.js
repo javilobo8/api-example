@@ -5,7 +5,6 @@ mongoose.Promise = Promise;
 
 const models = {
   Product: require('./product'),
-  User: require('./user'),
 };
 
 const defaultMongooseOptions = {

@@ -12,7 +12,7 @@ class ProductService {
   }
 
   getById(productId) {
-    return this.ProductModel.findById(productId).exec() // .exec() returns bluebird Promise
+    return this.ProductModel.findById(productId).exec()
       .tap(maybeThrowProductNotFound);
   }
 
