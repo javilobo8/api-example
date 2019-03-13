@@ -5,6 +5,12 @@ const models = require('../../src/models');
 const testDB = require('../test-db')(models);
 
 const app = require('../../src/app');
+const config = require('../../config');
+
+const authentication = [
+  'Authorization',
+  `Basic ${Buffer.from(`${config.authentication.user}:${config.authentication.pass}`).toString('base64')}`,
+];
 
 describe('ProductController', () => {
   before(() => testDB.connect());
@@ -101,6 +107,7 @@ describe('ProductController', () => {
       before(async () => {
         response = await supertest(app)
           .post('/product')
+          .set(...authentication)
           .send(baseProduct);
       });
 
@@ -129,11 +136,30 @@ describe('ProductController', () => {
       before(async () => {
         response = await supertest(app)
           .post('/product')
+          .set(...authentication)
           .send(baseProduct);
       });
 
       it('should response 500', () => {
         expect(response).to.have.property('status', 500);
+      });
+    });
+
+    describe('when it fails without authentication', () => {
+      const baseProduct = {
+        description: 'product description',
+      };
+
+      let response;
+
+      before(async () => {
+        response = await supertest(app)
+          .post('/product')
+          .send(baseProduct);
+      });
+
+      it('should response 401', () => {
+        expect(response).to.have.property('status', 401);
       });
     });
   });
@@ -153,7 +179,8 @@ describe('ProductController', () => {
         await models.Product.create(baseProduct);
 
         response = await supertest(app)
-          .delete(`/product/${productId}`);
+          .delete(`/product/${productId}`)
+          .set(...authentication);
       });
 
       it('should response 200', () => {
@@ -171,11 +198,25 @@ describe('ProductController', () => {
 
       before(async () => {
         response = await supertest(app)
-          .delete(`/product/${new models.mongoose.Types.ObjectId()}`);
+          .delete(`/product/${new models.mongoose.Types.ObjectId()}`)
+          .set(...authentication);
       });
 
       it('should response 500', () => {
         expect(response).to.have.property('status', 500);
+      });
+    });
+
+    describe('when it fails without authentication', () => {
+      let response;
+
+      before(async () => {
+        response = await supertest(app)
+          .delete(`/product/${new models.mongoose.Types.ObjectId()}`);
+      });
+
+      it('should response 401', () => {
+        expect(response).to.have.property('status', 401);
       });
     });
   });

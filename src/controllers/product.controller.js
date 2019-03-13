@@ -48,11 +48,13 @@ ProductController.routes = [
     method: 'get',
     path: '/',
     handler: 'listProducts',
+    skipAuth: true,
   },
   {
     method: 'get',
     path: '/:productId',
     handler: 'getProduct',
+    skipAuth: true,
   },
   {
     method: 'post',

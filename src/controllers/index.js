@@ -1,5 +1,7 @@
 const { Router } = require('express');
 
+const authMiddleware = require('../middlewares/auth');
+
 const ProductController = require('./product.controller');
 
 function buildController(app, container, Controller) {
@@ -7,7 +9,13 @@ function buildController(app, container, Controller) {
   const router = new Router();
 
   Controller.routes.forEach((route) => {
-    router[route.method](route.path, controller[route.handler].bind(controller));
+    const middlewares = [];
+
+    if (!route.skipAuth) {
+      middlewares.push(authMiddleware);
+    }
+
+    router[route.method](route.path, ...middlewares, controller[route.handler].bind(controller));
   });
 
   app.use(Controller.domain, router);
