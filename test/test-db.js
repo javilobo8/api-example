@@ -4,10 +4,11 @@ module.exports = (models) => {
   const mongod = new MongoMemoryServer();
 
   return {
-    connect: async function () {
-      await models.connect(await mongod.getConnectionString('test'));
+    connect: async () => {
+      const connectionString = await mongod.getConnectionString('test');
+      await models.connect(connectionString);
     },
-    disconnect: async function () {
+    disconnect: async () => {
       await models.disconnect();
       await mongod.stop();
     },
