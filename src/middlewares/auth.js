@@ -1,7 +1,9 @@
 const auth = require('basic-auth');
 
 const config = require('../../config');
-const errorHandlers = require('../error-handlers');
+const ErrorHandler = require('../utils/error-handler');
+
+const errorHandler = new ErrorHandler('auth-middleware');
 
 function authMiddleware(req, res, next) {
   const authentication = auth(req);
@@ -13,7 +15,7 @@ function authMiddleware(req, res, next) {
   );
 
   if (!isAuthenticated) {
-    return errorHandlers.sendUnauthorized('Bad authentication, basic auth needed')(res);
+    return errorHandler.sendUnauthorized(res)('Bad authentication, basic auth needed');
   }
 
   return next();

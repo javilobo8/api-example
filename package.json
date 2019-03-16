@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "mocha --exit ./test/**/*.test.js"
+    "test": "NODE_ENV=test mocha --exit ./test/**/*.test.js"
   },
   "dependencies": {
     "basic-auth": "^2.0.1",

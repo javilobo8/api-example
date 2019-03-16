@@ -16,6 +16,7 @@
     "no-use-before-define": "off",
     "global-require": "off",
     "no-console": "off",
-    "arrow-parens": "off"
+    "arrow-parens": "off",
+    "no-underscore-dangle": "off"
   }
 }

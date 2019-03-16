@@ -1,44 +1,38 @@
+const logger = require('../utils/logger');
+const ErrorHandler = require('../utils/error-handler');
+
 class ProductController {
   constructor({ services }) {
     this.productService = services.productService;
+
+    this.logger = logger(this.constructor.name);
+    this.errorHandler = new ErrorHandler(this.constructor.name);
   }
 
   listProducts(req, res) {
     this.productService.get()
       .then((data) => res.send(data))
-      .catch((error) => {
-        console.log(error);
-        res.status(500).send();
-      });
+      .catch(this.errorHandler.sendError(res));
   }
 
   getProduct(req, res) {
     this.productService.getById(req.params.productId)
       .then((data) => res.send(data))
-      .catch((error) => {
-        console.log(error);
-        res.status(500).send();
-      });
+      .catch(this.errorHandler.sendError(res));
   }
 
   addProduct(req, res) {
     this.productService.create(req.body)
       .then(() => this.productService.get())
       .then((data) => res.send(data))
-      .catch((error) => {
-        console.log(error);
-        res.status(500).send();
-      });
+      .catch(this.errorHandler.sendError(res));
   }
 
   deleteProduct(req, res) {
     this.productService.deleteById(req.params.productId)
       .then(() => this.productService.get())
       .then((data) => res.send(data))
-      .catch((error) => {
-        console.log(error);
-        res.status(500).send();
-      });
+      .catch(this.errorHandler.sendError(res));
   }
 }
 
