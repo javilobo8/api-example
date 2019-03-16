@@ -14,8 +14,14 @@ npm install
 
 ## Tests
 
+Running tests
 ```
-npm t
+npm test
+```
+
+Running coverage
+```
+npm run coverage
 ```
 
 ## TODO
