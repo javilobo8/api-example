@@ -1,11 +1,9 @@
-const logger = require('../utils/logger');
 const ErrorHandler = require('../utils/error-handler');
 
 class ProductController {
   constructor({ services }) {
     this.productService = services.productService;
 
-    this.logger = logger(this.constructor.name);
     this.errorHandler = new ErrorHandler(this.constructor.name);
   }
 
