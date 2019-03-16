@@ -1,5 +1,7 @@
+const models = require('../models');
+
 class ProductService {
-  constructor({ models }) {
+  constructor() {
     this.ProductModel = models.Product;
   }
 
